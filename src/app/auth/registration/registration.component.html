@@ -1,8 +1,13 @@
-<form>
-  <input type="email" placeholder="E-mail">
-  <input type="password" placeholder="Password">
-  <input type="password" placeholder="Password again">
-  <button type="submit">Sign Up</button>
+<div>
+  <form [formGroup]="form" (submit)="onSubmit($event)">
+    <input type="email" placeholder="E-mail" formControlName="email">
+    <input type="password" placeholder="Password" formControlName="password">
+    <span *ngIf="passwordErrors">123123</span>
+    <input type="password" placeholder="Password again" #passwordConfirmationInput>
+    <span *ngIf="isMismatchError">{{errorMessages.passwordMismatch}}</span>
+    <button type="submit">Sign Up</button>
+  </form>
   <a [routerLink]="'/auth/reset'">Reset</a>
   <a [routerLink]="'/auth/login'">Login</a>
-</form>
+</div>
+
