@@ -17,7 +17,13 @@
     </label>
     <button type="submit">Sign Up</button>
   </form>
-  <a [routerLink]="'/auth/reset'">Reset</a>
-  <a [routerLink]="'/auth/login'">Login</a>
+  <ul class="auth-navigation">
+    <li>
+      <a [routerLink]="'/auth/reset'">Reset</a>
+    </li>
+    <li>
+      <a [routerLink]="'/auth/login'">Login</a>
+    </li>
+  </ul>
 </div>
 

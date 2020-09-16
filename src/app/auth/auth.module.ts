@@ -7,11 +7,12 @@ import { RegistrationComponent } from './registration/registration.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { AuthRoutingModule } from './auth-routing.module';
 import { AuthComponent } from './auth.component';
+import { AuthStatusComponent } from './auth-status/auth-status.component';
 
 
 
 @NgModule({
-  declarations: [LoginComponent, RegistrationComponent, ResetPasswordComponent, AuthComponent],
+  declarations: [LoginComponent, RegistrationComponent, ResetPasswordComponent, AuthComponent, AuthStatusComponent],
   imports: [
     CommonModule,
     AuthRoutingModule,

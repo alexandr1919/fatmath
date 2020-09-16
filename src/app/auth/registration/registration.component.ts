@@ -1,6 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
+import { thistle } from 'color-name';
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-registration',
@@ -8,13 +10,13 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./registration.component.scss']
 })
 export class RegistrationComponent {
-  @ViewChild('passwordConfirmationInput') passwordConfirmationInput;
-  isMismatchError: boolean;
+  @Output() registrationProcess =  new EventEmitter<{status: string, message: string}>();
+
 
   form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.min(6)]],
-    passwordConfirmation: ['', Validators.min(6)]
+    password: ['', [Validators.required, Validators.minLength(6)]],
+    passwordConfirmation: ['']
   });
 
   errorMessages = {
@@ -30,29 +32,29 @@ export class RegistrationComponent {
 
   }
 
-
-  get passwordErrors() {
-    console.log(this.form.controls.password)
-    const passwordField = this.form.value.password;
-    return passwordField.errors;
+  get isFormInvalid() {
+    return this.form.controls.password.invalid || this.form.controls.email.invalid
   }
 
-
   onSubmit(event) {
-    this.isMismatchError = false;
-    event.preventDefault();
+    if (this.isFormInvalid) return;
+    const email = this.form.value.email;
     const password = this.form.value.password;
-    const passwordConfirmation = this.form.value.passwordConfirmation;
-    if (password !== passwordConfirmation) {
-      this.isMismatchError = true;
-      return;
-    }
-    //this.authService.register()
+    event.preventDefault();
+    this.form.controls.password.markAsTouched();
+    this.form.controls.email.markAsTouched();
+    const registerObservable = from(this.authService.register({email, password}));
+    registerObservable.subscribe(res => {
+      console.log(res);
+    }, err => {
+      this.registrationProcess.emit({status: 'error', message: err.message});
+    });
   }
 
   get isPasswordMatch() {
-    // tslint:disable-next-line:max-line-length
-    return this.form.controls.password.touched && this.form.controls.passwordConfirmation.touched && this.form.controls.passwordConfirmation.value !== this.form.controls.password.value;
+    return this.form.controls.password.touched
+      && this.form.controls.passwordConfirmation.touched
+      && this.form.controls.passwordConfirmation.value !== this.form.controls.password.value;
   }
 
 }
