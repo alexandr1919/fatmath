@@ -50,4 +50,9 @@ export class RegistrationComponent {
     //this.authService.register()
   }
 
+  get isPasswordMatch() {
+    // tslint:disable-next-line:max-line-length
+    return this.form.controls.password.touched && this.form.controls.passwordConfirmation.touched && this.form.controls.passwordConfirmation.value !== this.form.controls.password.value;
+  }
+
 }

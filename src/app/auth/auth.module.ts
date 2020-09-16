@@ -15,7 +15,8 @@ import { AuthComponent } from './auth.component';
   imports: [
     CommonModule,
     AuthRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class AuthModule { }
