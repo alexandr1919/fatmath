@@ -1,6 +1,10 @@
 <section class="auth-container">
   <div class="auth-block">
-    <app-auth-status></app-auth-status>
+    <app-auth-status
+      *ngIf="authState"
+      [state]=authState
+      [text]="authMessage"
+    ></app-auth-status>
     <router-outlet></router-outlet>
   </div>
 </section>

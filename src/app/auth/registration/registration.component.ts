@@ -1,8 +1,9 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../services/auth.service';
-import { thistle } from 'color-name';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { from } from 'rxjs';
+
+import { AuthService } from '../services/auth.service';
+import { ActionTypes, eventDispatcher } from '../auth-store/auth-store';
 
 @Component({
   selector: 'app-registration',
@@ -11,7 +12,7 @@ import { from } from 'rxjs';
 })
 export class RegistrationComponent {
   @Output() registrationProcess =  new EventEmitter<{status: string, message: string}>();
-
+  isProcessing: boolean;
 
   form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -19,22 +20,10 @@ export class RegistrationComponent {
     passwordConfirmation: ['']
   });
 
-  errorMessages = {
-    passwordMismatch: 'Password doesn\'t match',
-    passwordMinLength: 'Password should be at least 6 symbols length',
-    emailTaken: 'Email has already been taken'
-  };
-
   constructor(
     private authService: AuthService,
     private fb: FormBuilder
-  ) {
-
-  }
-
-  get isFormInvalid() {
-    return this.form.controls.password.invalid || this.form.controls.email.invalid
-  }
+  ) {}
 
   onSubmit(event) {
     if (this.isFormInvalid) return;
@@ -43,10 +32,24 @@ export class RegistrationComponent {
     event.preventDefault();
     this.form.controls.password.markAsTouched();
     this.form.controls.email.markAsTouched();
+    eventDispatcher.next({
+      name: ActionTypes.AUTH_PENDING
+    });
+    this.isProcessing = true;
     const registerObservable = from(this.authService.register({email, password}));
     registerObservable.subscribe(res => {
+      this.isProcessing = false;
       console.log(res);
     }, err => {
+      console.log(err)
+      this.isProcessing = false;
+      eventDispatcher.next({
+        name: ActionTypes.AUTH_FINISHED,
+        payload: {
+          status: 'error',
+          message: err.message
+        }
+      });
       this.registrationProcess.emit({status: 'error', message: err.message});
     });
   }
@@ -55,6 +58,10 @@ export class RegistrationComponent {
     return this.form.controls.password.touched
       && this.form.controls.passwordConfirmation.touched
       && this.form.controls.passwordConfirmation.value !== this.form.controls.password.value;
+  }
+
+  get isFormInvalid() {
+    return this.form.controls.password.invalid || this.form.controls.email.invalid;
   }
 
 }

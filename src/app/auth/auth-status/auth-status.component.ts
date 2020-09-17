@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-auth-status',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./auth-status.component.scss']
 })
 export class AuthStatusComponent implements OnInit {
+  @Input() state;
+  @Input() text;
 
   constructor() { }
 
