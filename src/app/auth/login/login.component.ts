@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { from } from 'rxjs';
 
@@ -10,7 +10,7 @@ import { ActionTypes, eventDispatcher } from '../auth-store/auth-store';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
@@ -20,9 +20,6 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService
   ) { }
-
-  ngOnInit(): void {
-  }
 
   onSubmit() {
     const email = this.form.controls.email;

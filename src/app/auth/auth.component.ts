@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { authStore } from './auth-store/auth-store';
 
 @Component({
@@ -6,11 +6,12 @@ import { authStore } from './auth-store/auth-store';
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss']
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent {
   authState: string;
   authMessage: string;
 
   constructor() {
+    localStorage.setItem('user', null)
     authStore.subscribe(state => {
       console.log(state)
       if (state.status === 'pending') {
@@ -22,7 +23,8 @@ export class AuthComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  onActivate() {
+    this.authState = null;
   }
 
 }

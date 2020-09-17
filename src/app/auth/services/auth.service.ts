@@ -12,13 +12,25 @@ export class AuthService {
   constructor(
     private afAuth: AngularFireAuth
   ) {
+    this.afAuth.authState.subscribe(user => {
+      if (user) {
+        console.log(user);
+        localStorage.setItem('user', JSON.stringify(user));
+      } else {
+        localStorage.setItem('user', null);
+      }
+
+      console.log(localStorage.getItem('user'));
+      console.log(JSON.parse(localStorage.getItem('user')));
+
+    });
 
 
   }
 
-  static get isLoggedIn() {
-    const  user  =  JSON.parse(localStorage.getItem('user'));
-    return  user  !==  null;
+  get isLoggedIn() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    return user !==  null;
   }
 
 
@@ -30,8 +42,5 @@ export class AuthService {
     return this.afAuth.signInWithEmailAndPassword(credentials.email, credentials.password);
   }
 
-  authSuccesfully() {
-    console.log('1');
-  }
 
 }
