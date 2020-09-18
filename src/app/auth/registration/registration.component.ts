@@ -42,24 +42,32 @@ export class RegistrationComponent {
       name: ActionTypes.AUTH_PENDING
     });
     this.isProcessing = true;
-    const registerObservable = from(this.authService.register({email, password}));
-    registerObservable.subscribe(res => {
-      this.isProcessing = false;
-      this.router.navigate(['dashboard'], { relativeTo: this.route.parent.parent });
-
+    const registerObservable$ = from(this.authService.registerAndSendEmailVerification({email, password}));
+    registerObservable$.subscribe(res => {
       console.log(res);
     }, err => {
-      console.log(err)
-      this.isProcessing = false;
-      eventDispatcher.next({
-        name: ActionTypes.AUTH_FINISHED,
-        payload: {
-          status: 'error',
-          message: err.message
-        }
-      });
-      this.registrationProcess.emit({status: 'error', message: err.message});
+      console.log(err);
     });
+    // registerObservable$.subscribe(user => {
+    //   console.log(user)
+    //   return
+    //   this.isProcessing = false;
+    //   localStorage.setItem('user', JSON.stringify(user));
+    //   this.router.navigate(['/home'], { relativeTo: this.route.parent });
+    //   console.log(user);
+    // }, err => {
+    //   return
+    //   console.log(err)
+    //   this.isProcessing = false;
+    //   eventDispatcher.next({
+    //     name: ActionTypes.AUTH_FINISHED,
+    //     payload: {
+    //       status: 'error',
+    //       message: err.message
+    //     }
+    //   });
+    //   this.registrationProcess.emit({status: 'error', message: err.message});
+    // });
   }
 
   get isPasswordMatch() {

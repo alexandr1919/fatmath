@@ -7,7 +7,7 @@
     </label>
     <label class="form-label" for="email">
       <span>Password</span>
-      <input type="email" id="password" formControlName="password">
+      <input type="password" id="password" formControlName="password">
       <span *ngIf="form.controls['password'].invalid && form.controls['email'].touched">Password required</span>
     </label>
     <button type="submit">Login</button>
