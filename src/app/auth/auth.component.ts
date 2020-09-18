@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+
 import { authStore } from './auth-store/auth-store';
 
 @Component({
@@ -6,14 +9,15 @@ import { authStore } from './auth-store/auth-store';
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss']
 })
-export class AuthComponent {
+export class AuthComponent implements OnDestroy {
   authState: string;
   authMessage: string;
+  keepStatus: boolean;
+  private queryParamsSubscription$: Subscription;
 
-  constructor() {
-    localStorage.setItem('user', null)
+
+  constructor(private route: ActivatedRoute) {
     authStore.subscribe(state => {
-      console.log(state)
       if (state.status === 'pending') {
         this.authState = null;
         return;
@@ -23,8 +27,15 @@ export class AuthComponent {
     });
   }
 
-  onActivate() {
-    this.authState = null;
+  onActivate(event) {
+    event.route && event.route.queryParams.subscribe((params) => {
+      this.keepStatus = params.keepStatus;
+    });
+    if (!this.keepStatus) this.authState = null;
+  }
+
+  ngOnDestroy() {
+    this.queryParamsSubscription$ && this.queryParamsSubscription$.unsubscribe();
   }
 
 }

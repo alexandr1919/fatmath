@@ -10,7 +10,10 @@
       <input type="password" id="password" formControlName="password">
       <span *ngIf="form.controls['password'].invalid && form.controls['email'].touched">Password required</span>
     </label>
-    <button type="submit">Login</button>
+    <button
+      type="submit"
+      [disabled]="isProcessing"
+    >{{isProcessing ? '...' : 'Login'}}</button>
   </form>
   <ul class="auth-navigation">
     <li>

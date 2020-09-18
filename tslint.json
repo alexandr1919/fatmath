@@ -55,6 +55,7 @@
         ]
       }
     ],
+    "no-unused-expression": [true, "allow-fast-null-checks"],
     "no-console": [
       true,
       "debug",

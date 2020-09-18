@@ -13,6 +13,7 @@ import { ActionTypes, eventDispatcher } from '../auth-store/auth-store';
 })
 export class LoginComponent {
   loginObservable$: Observable<any>;
+  isProcessing: boolean;
   form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
@@ -36,12 +37,14 @@ export class LoginComponent {
     eventDispatcher.next({
       name: ActionTypes.AUTH_PENDING
     });
+    this.isProcessing = true;
     this.loginObservable$ = from(this.authService.login({email: email.value, password: password.value}));
     this.loginObservable$.subscribe(res => {
+      this.isProcessing = false;
       localStorage.setItem('user', JSON.stringify(res.user));
       this.router.navigate(['/home'], { relativeTo: this.route.parent });
     }, err => {
-      console.log(err);
+      this.isProcessing = false;
       eventDispatcher.next({
         name: ActionTypes.AUTH_FINISHED,
         payload: {
@@ -51,7 +54,4 @@ export class LoginComponent {
       });
     });
   }
-
-  // TODO OnDestroy unsubscription ??
-
 }

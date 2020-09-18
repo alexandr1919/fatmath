@@ -5,6 +5,6 @@
       [state]=authState
       [text]="authMessage"
     ></app-auth-status>
-    <router-outlet (activate)="onActivate()"></router-outlet>
+    <router-outlet (activate)="onActivate($event)"></router-outlet>
   </div>
 </section>

@@ -15,7 +15,6 @@ import { ActionTypes, eventDispatcher } from '../auth-store/auth-store';
 export class RegistrationComponent {
   @Output() registrationProcess =  new EventEmitter<{status: string, message: string}>();
   isProcessing: boolean;
-
   form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
@@ -43,31 +42,26 @@ export class RegistrationComponent {
     });
     this.isProcessing = true;
     const registerObservable$ = from(this.authService.registerAndSendEmailVerification({email, password}));
-    registerObservable$.subscribe(res => {
-      console.log(res);
+    registerObservable$.subscribe(() => {
+      this.isProcessing = false;
+      this.router.navigate(['login'], {relativeTo: this.route.parent, queryParams: {isValidationCompleted: true}});
+      eventDispatcher.next({
+        name: ActionTypes.AUTH_FINISHED,
+        payload: {
+          status: 'complete',
+          message: 'Check your email' // TODO text
+        }
+      });
     }, err => {
-      console.log(err);
+      this.isProcessing = false;
+      eventDispatcher.next({
+        name: ActionTypes.AUTH_FINISHED,
+        payload: {
+          status: 'error',
+          message: err.message
+        }
+      });
     });
-    // registerObservable$.subscribe(user => {
-    //   console.log(user)
-    //   return
-    //   this.isProcessing = false;
-    //   localStorage.setItem('user', JSON.stringify(user));
-    //   this.router.navigate(['/home'], { relativeTo: this.route.parent });
-    //   console.log(user);
-    // }, err => {
-    //   return
-    //   console.log(err)
-    //   this.isProcessing = false;
-    //   eventDispatcher.next({
-    //     name: ActionTypes.AUTH_FINISHED,
-    //     payload: {
-    //       status: 'error',
-    //       message: err.message
-    //     }
-    //   });
-    //   this.registrationProcess.emit({status: 'error', message: err.message});
-    // });
   }
 
   get isPasswordMatch() {
