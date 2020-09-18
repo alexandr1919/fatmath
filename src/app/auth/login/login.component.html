@@ -1,0 +1,27 @@
+<section>
+  <form class="form" [formGroup]="form" (submit)="onSubmit()">
+    <label class="form-label" for="email">
+      <span>Email</span>
+      <input type="email" id="email" formControlName="email">
+      <span *ngIf="form.controls['email'].invalid && form.controls['email'].touched">Email required</span>
+    </label>
+    <label class="form-label" for="email">
+      <span>Password</span>
+      <input type="password" id="password" formControlName="password">
+      <span *ngIf="form.controls['password'].invalid && form.controls['email'].touched">Password required</span>
+    </label>
+    <button
+      type="submit"
+      [disabled]="isProcessing"
+    >{{isProcessing ? '...' : 'Login'}}</button>
+  </form>
+  <ul class="auth-navigation">
+    <li>
+      <a [routerLink]="'/auth/registration'">Registration</a>
+    </li>
+    <li>
+      <a [routerLink]="'/auth/reset'">Reset password</a>
+    </li>
+  </ul>
+</section>
+
