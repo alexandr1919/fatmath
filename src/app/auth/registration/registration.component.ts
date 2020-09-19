@@ -42,9 +42,10 @@ export class RegistrationComponent {
     });
     this.isProcessing = true;
     const registerObservable$ = from(this.authService.registerAndSendEmailVerification({email, password}));
-    registerObservable$.subscribe(() => {
+    registerObservable$.subscribe((res) => {
+      console.log(res)
       this.isProcessing = false;
-      this.router.navigate(['login'], {relativeTo: this.route.parent, queryParams: {isValidationCompleted: true}});
+      this.router.navigate(['login'], {relativeTo: this.route.parent, queryParams: {keepStatus: true}});
       eventDispatcher.next({
         name: ActionTypes.AUTH_FINISHED,
         payload: {

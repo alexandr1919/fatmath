@@ -29,6 +29,7 @@ export class AuthComponent implements OnDestroy {
 
   onActivate(event) {
     event.route && event.route.queryParams.subscribe((params) => {
+      console.log(this.keepStatus)
       this.keepStatus = params.keepStatus;
     });
     if (!this.keepStatus) this.authState = null;
