@@ -1,1 +1,9 @@
-<p>navigation works!</p>
+<section class="navigation">
+  <ul class="navigation-links">
+    <li class="navigation-link"><a [routerLink]="['summary']">Summary</a></li>
+    <li class="navigation-link"><a [routerLink]="['products']">Products</a></li>
+  </ul>
+  <div class="user-menu">
+    <a class="logout" (click)="logout()">logout</a>
+  </div>
+</section>

@@ -6,19 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-  ) { }
-
-  ngOnInit(): void {
-  }
-
-  logout() {
-    localStorage.setItem('user', null);
-    this.router.navigate(['/auth'], { relativeTo: this.route.parent });
-  }
 
 }

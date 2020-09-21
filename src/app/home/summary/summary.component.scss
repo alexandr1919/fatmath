@@ -1,0 +1,33 @@
+.summary {
+
+}
+
+.daily-list-item {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 20px;
+}
+
+.short {
+  display: flex;
+  padding: 20px 0;
+}
+
+.resume {
+  display: flex;
+  padding: 0 20px;
+  .resume-item {
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+    .title {
+      color: grey;
+    }
+  }
+}
+
+.extended {
+  padding: 20px 0;
+  border-top: 1px solid grey;
+}
+
