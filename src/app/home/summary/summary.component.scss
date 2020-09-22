@@ -5,12 +5,14 @@
 .daily-list-item {
   display: flex;
   flex-direction: column;
-  padding: 10px 20px;
+  padding: 0 16px;
+  border: 1px solid lightgrey;
 }
 
 .short {
   display: flex;
-  padding: 20px 0;
+  align-items: center;
+  padding: 14px 0;
 }
 
 .resume {
@@ -21,13 +23,29 @@
     flex-direction: column;
     padding: 0 20px;
     .title {
+      margin-bottom: 4px;
       color: grey;
+      font-size: 14px;
     }
   }
 }
 
 .extended {
   padding: 20px 0;
-  border-top: 1px solid grey;
+}
+
+.extended-table {
+  .product {
+    width: 120px;
+  }
+  .ccal {
+    width: 80px;
+  }
+  .fat {
+    width: 50px;
+  }
+  .carb {
+    width: 50px;
+  }
 }
 
