@@ -7,7 +7,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
-import { AuthRoutingModule } from './auth/auth-routing.module';
+import { AuthRoutingModule } from './modules/auth/auth-routing.module';
 
 @NgModule({
   declarations: [

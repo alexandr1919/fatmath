@@ -1,12 +1,16 @@
-export interface Summary {
+import { SummaryReview } from '../interfaces/summary-review';
+import { BaseObject } from './base';
+
+export class Summary extends BaseObject {
   id: string;
   date: string;
-  review: {
-    productId: string;
-    amount: number;
-    calories: number;
-    protein: number;
-    fat: number;
-    carb: number;
-  }[];
+  review: SummaryReview[];
+
+  getTotal(item) {
+    let total = 0;
+    this.review.forEach(reviewItem => {
+      total += reviewItem[item];
+    });
+    return total;
+  }
 }

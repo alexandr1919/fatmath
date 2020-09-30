@@ -2,8 +2,6 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { from } from 'rxjs';
-
 import { AuthService } from '../services/auth.service';
 import { ActionTypes, eventDispatcher } from '../auth-store/auth-store';
 
@@ -28,7 +26,7 @@ export class RegistrationComponent {
     private route: ActivatedRoute
   ) {}
 
-  onSubmit(event) {
+  onSubmit(event: any) {
     if (this.isFormInvalid) {
       this.form.controls.password.markAsTouched();
       this.form.controls.email.markAsTouched();
@@ -41,9 +39,7 @@ export class RegistrationComponent {
       name: ActionTypes.AUTH_PENDING
     });
     this.isProcessing = true;
-    const registerObservable$ = from(this.authService.registerAndSendEmailVerification({email, password}));
-    registerObservable$.subscribe((res) => {
-      console.log(res)
+    this.authService.registerAndSendEmailVerification({email, password}).subscribe(() => {
       this.isProcessing = false;
       this.router.navigate(['login'], {relativeTo: this.route.parent, queryParams: {keepStatus: true}});
       eventDispatcher.next({

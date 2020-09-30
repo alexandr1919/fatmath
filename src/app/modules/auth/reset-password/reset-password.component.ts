@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { from, Observable } from 'rxjs';
 
 import { AuthService } from '../services/auth.service';
 import { ActionTypes, eventDispatcher } from '../auth-store/auth-store';
@@ -16,7 +15,6 @@ export class ResetPasswordComponent {
   form: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email]]
   });
-  loginObservable$: Observable<any>;
 
   constructor(
     private fb: FormBuilder,
@@ -35,8 +33,7 @@ export class ResetPasswordComponent {
     eventDispatcher.next({
       name: ActionTypes.AUTH_PENDING
     });
-    this.loginObservable$ = from(this.authService.resetPassword({email: email.value}));
-    this.loginObservable$.subscribe(() => {
+    this.authService.resetPassword({email: email.value}).subscribe(() => {
       this.isProcessing = false;
       this.router.navigate(['login'], {relativeTo: this.route.parent, queryParams: {keepStatus: true}});
       eventDispatcher.next({

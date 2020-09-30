@@ -1,10 +1,18 @@
-.summary {
-
+.panel {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+  padding: 6px 16px;
+  border: 1px solid lightgrey;
+  .add-button {
+    margin-left: auto;
+  }
 }
 
 .daily-list-item {
   display: flex;
   flex-direction: column;
+  margin-bottom: 12px;
   padding: 0 16px;
   border: 1px solid lightgrey;
 }

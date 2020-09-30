@@ -30,13 +30,18 @@ export class AuthService {
   }
 
   login(credentials) {
-    return this.afAuth.signInWithEmailAndPassword(credentials.email, credentials.password);
+    return from(this.afAuth.signInWithEmailAndPassword(credentials.email, credentials.password));
+  }
+
+  logout() {
+    return from(this.afAuth.signOut());
   }
 
   resetPassword(credentials) {
-    return this.afAuth.sendPasswordResetEmail(credentials.email);
+    return from(this.afAuth.sendPasswordResetEmail(credentials.email));
   }
 
-
-
+  getCurrentUser(){
+    return from(this.afAuth.currentUser);
+  }
 }

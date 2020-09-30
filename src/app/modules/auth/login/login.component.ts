@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { from, Observable } from 'rxjs';
 
 import { AuthService } from '../services/auth.service';
 import { ActionTypes, eventDispatcher } from '../auth-store/auth-store';
@@ -12,7 +11,6 @@ import { ActionTypes, eventDispatcher } from '../auth-store/auth-store';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  loginObservable$: Observable<any>;
   isProcessing: boolean;
   form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -38,8 +36,7 @@ export class LoginComponent {
       name: ActionTypes.AUTH_PENDING
     });
     this.isProcessing = true;
-    this.loginObservable$ = from(this.authService.login({email: email.value, password: password.value}));
-    this.loginObservable$.subscribe(res => {
+    this.authService.login({email: email.value, password: password.value}).subscribe(res => {
       this.isProcessing = false;
       localStorage.setItem('user', JSON.stringify(res.user));
       this.router.navigate(['/home'], { relativeTo: this.route.parent });

@@ -1,24 +1,18 @@
 <section class="summary">
+  <div class="panel">
+    <button class="add-button button">
+      Add
+    </button>
+  </div>
   <ul class="daily-list">
-    <li class="daily-list-item">
+    <li class="daily-list-item" *ngFor="let listItem of summaryList">
       <div class="short">
-        <span class="date">21.09.2020</span>
+        <span class="date">{{listItem.date}}</span>
         <ul class="resume">
-          <li class="resume-item total">
-            <span class="title">Ccal</span><span>2345</span>
-          </li>
-          <li class="resume-item total">
-            <span class="title">Protein</span>
-            <span>2345</span>
-          </li>
-          <li class="resume-item total">
-            <span class="title">Fat</span>
-            <span>340</span>
-          </li>
-          <li class="resume-item total">
-            <span class="title">Carbohydrates</span>
-            <span>340</span>
-          </li>
+          <li class="resume-item total"><span class="title">Ccal</span><span>{{listItem.getTotal('calories')}}</span></li>
+          <li class="resume-item total"><span class="title">Protein</span><span>{{listItem.getTotal('protein')}}</span></li>
+          <li class="resume-item total"><span class="title">Fat</span><span>{{listItem.getTotal('fat')}}</span></li>
+          <li class="resume-item total"><span class="title">Carbohydrates</span><span>{{listItem.getTotal('carbs')}}</span></li>
         </ul>
       </div>
       <div class="extended">
@@ -31,12 +25,12 @@
             <th class="carb">Carbohydrates</th>
           </tr>
           <tbody>
-            <tr>
-              <td>Tomato</td>
-              <td>100</td>
-              <td>100</td>
-              <td>100</td>
-              <td>100</td>
+            <tr *ngFor="let reviewItem of listItem.review">
+              <td>{{reviewItem.productName}}</td>
+              <td>{{reviewItem.calories}}</td>
+              <td>{{reviewItem.protein}}</td>
+              <td>{{reviewItem.fat}}</td>
+              <td>{{reviewItem.carbs}}</td>
             </tr>
           </tbody>
         </table>
